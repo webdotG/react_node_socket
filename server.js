@@ -25,7 +25,7 @@ app.get('/test',  (request, response) => {
 })
 
 io.on('connection', (socket) =>{
-		console.log('user connected :', socket.id)
+		console.log('user connected socket id :', socket.id)
 })
 
 server.listen(1111, (error) => {
