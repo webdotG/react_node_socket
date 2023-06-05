@@ -17,9 +17,13 @@ function App() {
 						type: 'JOINED',
 						payload: roomidUsername
 				})
-				console.log('передаю на сервер roomId userName :' + roomidUsername )
+				console.log('передаю на сервер запрос ROOM:JOIN' )
+				console.log('передаю на сервер roomId userName :', roomidUsername )
 				socket.emit('ROOM:JOIN', roomidUsername)
+				console.log('ROOM:JOIN socket.emit ВЫПОЛНЕН' )
 		}
+
+		console.log('поверка на измененение стэйта :', state)
 
 		useEffect(() => {
 				socket.on('Room:Joined', (users) => {
