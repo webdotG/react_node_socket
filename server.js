@@ -17,15 +17,15 @@ app.get('/rooms', (req, res) => {
 })
 
 app.post('/rooms', (req, res) => {
-		console.log('получение с post' ,req.body)
+		console.log('получение с post', req.body)
 		const {roomId, userName} = req.body
 		if (!rooms.has(roomId)) {
 				rooms.set(
 						roomId,
-						new Map([
-								['users', []],
-								['messages', []],
-						])
+						{
+								users: [],
+								messages: [],
+						}
 				)
 		}
 		res.json([...rooms.values()])
@@ -39,10 +39,12 @@ app.post('/rooms', (req, res) => {
 io.on('connection', (socket) => {
 		console.log('user connected socket id :', socket.id)
 		socket.on('ROOM:JOIN', ({roomId, userName}) => {
-				console.log(`'пришёл сокет запрос ROOM:JOIN, с клиента получены дынные :' ${roomId}  ${userName}`)
-				if (rooms.get(roomId, userName)) {
+				console.log(`пришёл сокет запрос ROOM:JOIN, с клиента получены дынные : ${roomId}  ${userName}`)
+				const room = rooms.get(roomId)
+				if (room) {
 						socket.join(roomId, userName)
-						console.log('проверка на подключение и получение roomId, userName :', roomId, userName)
+						console.log(`проверка на подключение и получение roomId = ${roomId}, userName = ${JSON.stringify(room)}`)
+						rooms.in(roomId).in('users').socket(socket.id, userName)
 				}
 		});
 })

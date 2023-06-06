@@ -20,8 +20,12 @@ function JoinBlock({onLogin}) {
 				}
 
 				setLoading(true)
-				await axios.post('/rooms', roomidUsername)
-				onLogin(roomidUsername)
+				const response = await axios.post('/rooms', roomidUsername)
+				if (response.status === 200) {
+						const data = response.data
+						console.log(`Ответ с сервера: `, data)
+						onLogin(roomidUsername)
+				}
 		}
 
 		return (
