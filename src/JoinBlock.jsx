@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import socket from "./socket/socket";
 import axios from "axios";
 
 
@@ -23,7 +22,7 @@ function JoinBlock({onLogin}) {
 				const response = await axios.post('/rooms', roomidUsername)
 				if (response.status === 200) {
 						const data = response.data
-						console.log(`Ответ с сервера: `, data)
+						console.log('Ответ с сервера : ', data)
 						onLogin(roomidUsername)
 				}
 		}

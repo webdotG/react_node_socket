@@ -42,9 +42,13 @@ io.on('connection', (socket) => {
 				console.log(`пришёл сокет запрос ROOM:JOIN, с клиента получены дынные : ${roomId}  ${userName}`)
 				const room = rooms.get(roomId)
 				if (room) {
-						socket.join(roomId, userName)
+						socket.join(roomId)
 						console.log(`проверка на подключение и получение roomId = ${roomId}, userName = ${JSON.stringify(room)}`)
-						rooms.in(roomId).in('users').socket(socket.id, userName)
+						const myRoom = rooms.get(roomId)
+						console.log(myRoom)
+						myRoom.users[myRoom.users.length] = socket.id
+						socket.to(roomId).emit('ROOM:JOINED', myRoom.users)
+						socket.emit('ROOM:JOINED', myRoom.users)
 				}
 		});
 })
@@ -62,7 +66,7 @@ const testData = {
 }
 
 
-server.listen(1111, (error) => {
+server.listen(1234, (error) => {
 		if (error) {
 				throw Error(error)
 		}

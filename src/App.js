@@ -19,9 +19,12 @@ function App() {
 				})
 				console.log('передаю на сервер запрос ROOM:JOIN' )
 				console.log('передаю на сервер roomId userName :', roomidUsername )
+				socket.open()
 				socket.emit('ROOM:JOIN', roomidUsername)
 				console.log('ROOM:JOIN socket.emit ВЫПОЛНЕН' )
 		}
+
+
 
 		console.log('поверка на измененение стэйта :', state)
 
@@ -31,6 +34,7 @@ function App() {
 				})
 		}, [])
 
+window.socket = socket
 
 		return (
 				<div>
